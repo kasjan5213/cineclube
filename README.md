@@ -25,3 +25,6 @@ python app.py
 Abra `http://127.0.0.1:5000` no navegador.
 
 O banco SQLite (`cineclube.db`) é criado automaticamente na primeira execução.
+
+## Hospedagem
+Aplicação disponível em: https://kilmeplease.pythonanywhere.com
