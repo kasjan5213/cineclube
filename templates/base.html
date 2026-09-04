@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-tema="{{ tema }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}CineClube{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <a class="logo" href="{{ url_for('index') }}">CineClube</a>
+        <nav>
+            <a href="{{ url_for('index') }}">Início</a>
+            <a href="{{ url_for('listar') }}">Filmes</a>
+            <a href="{{ url_for('novo') }}">Novo filme</a>
+            <a href="{{ url_for('sobre') }}">Sobre</a>
+            {% if tema == 'escuro' %}
+                <a href="{{ url_for('trocar_tema', modo='claro') }}">Tema claro</a>
+            {% else %}
+                <a href="{{ url_for('trocar_tema', modo='escuro') }}">Tema escuro</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        {% with mensagens = get_flashed_messages(with_categories=true) %}
+            {% if mensagens %}
+                <div class="alertas">
+                    {% for categoria, mensagem in mensagens %}
+                        <p class="alerta {{ categoria }}">{{ mensagem }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block conteudo %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>Visitas nesta sessão: {{ visitas }}</p>
+        {% if ultimo_acesso %}
+            <p>Último acesso registrado: {{ ultimo_acesso }}</p>
+        {% endif %}
+        {% if ultimo_filme %}
+            <p>Último filme visitado: {{ ultimo_filme }}</p>
+        {% endif %}
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

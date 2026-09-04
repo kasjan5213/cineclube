@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block titulo %}Filmes · CineClube{% endblock %}
+
+{% block conteudo %}
+<h1>Todos os filmes</h1>
+
+<form class="busca" method="get" action="{{ url_for('listar') }}">
+    <input type="search" name="q" value="{{ busca }}" placeholder="Buscar por título ou diretor">
+    <button type="submit">Buscar</button>
+</form>
+
+{% if filmes %}
+    <p>{{ filmes|length }} registro{{ 's' if filmes|length != 1 else '' }} encontrado{{ 's' if filmes|length != 1 else '' }}.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Diretor</th>
+                <th>Ano</th>
+                <th>Gênero</th>
+                <th>Status</th>
+                <th>Nota</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for filme in filmes %}
+                <tr>
+                    <td>{{ filme.titulo }}</td>
+                    <td>{{ filme.diretor }}</td>
+                    <td>{{ filme.ano }}</td>
+                    <td>{{ filme.genero }}</td>
+                    <td>{{ filme.status }}</td>
+                    <td>{{ filme.nota if filme.nota is not none else "—" }}</td>
+                    <td><a href="{{ url_for('detalhes', id=filme.id) }}">Detalhes</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Nenhum filme encontrado{% if busca %} para "{{ busca }}"{% endif %}.</p>
+{% endif %}
+{% endblock %}

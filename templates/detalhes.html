@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ filme.titulo }} · CineClube{% endblock %}
+
+{% block conteudo %}
+<article class="detalhe">
+    <h1>{{ filme.titulo }}</h1>
+    <p><strong>Diretor:</strong> {{ filme.diretor }}</p>
+    <p><strong>Ano:</strong> {{ filme.ano }}</p>
+    <p><strong>Gênero:</strong> {{ filme.genero }}</p>
+    <p><strong>Status:</strong> {{ filme.status }}</p>
+    <p><strong>Nota:</strong>
+        {% if filme.nota is not none %}
+            {{ filme.nota }}/10
+        {% else %}
+            ainda sem nota
+        {% endif %}
+    </p>
+    {% if filme.sinopse %}
+        <p><strong>Sinopse:</strong> {{ filme.sinopse }}</p>
+    {% else %}
+        <p>Este filme ainda não tem sinopse.</p>
+    {% endif %}
+
+    <div class="acoes">
+        <a class="botao" href="{{ url_for('editar', id=filme.id) }}">Editar</a>
+        <form method="post" action="{{ url_for('excluir', id=filme.id) }}" data-confirmar="Excluir este filme?">
+            <button class="botao perigo" type="submit">Excluir</button>
+        </form>
+        <a class="botao secundario" href="{{ url_for('listar') }}">Voltar</a>
+    </div>
+</article>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block titulo %}Início · CineClube{% endblock %}
+
+{% block conteudo %}
+<section class="hero">
+    <h1>Sua estante de filmes</h1>
+    <p>Cadastre, organize e acompanhe o que você quer ver, está vendo ou já assistiu.</p>
+    <p>Há <strong>{{ total }}</strong> filme{{ 's' if total != 1 else '' }} na coleção.</p>
+    <a class="botao" href="{{ url_for('novo') }}">Cadastrar filme</a>
+    <a class="botao secundario" href="{{ url_for('listar') }}">Ver lista</a>
+</section>
+
+<section>
+    <h2>Adicionados recentemente</h2>
+    {% if recentes %}
+        <div class="grade">
+            {% for filme in recentes %}
+                <article class="cartao">
+                    <h3>{{ filme.titulo }}</h3>
+                    <p>{{ filme.diretor }} · {{ filme.ano }}</p>
+                    <p class="selo">{{ filme.status }}</p>
+                    <a href="{{ url_for('detalhes', id=filme.id) }}">Ver detalhes</a>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Nenhum filme cadastrado ainda.</p>
+    {% endif %}
+</section>
+{% endblock %}
